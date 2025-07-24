@@ -1,0 +1,59 @@
+Q: What is the purpose of this chatbot?
+A: This chatbot is designed to assist users by answering questions based on the documents uploaded to its knowledge base. It uses AI embeddings to understand and retrieve relevant information.
+
+Q: How do I upload documents to train the chatbot?
+A: You upload documents by adding text files (.txt) into the `documents` folder of the project repository. After adding your files, you need to redeploy the API so that the new documents are indexed and used by the model.
+
+Q: What formats of documents are supported?
+A: Currently, the system supports plain text files (.txt). PDF and other formats may require conversion to text before uploading. Always check the repository documentation for updates on supported file types.
+
+Q: How does the chatbot use the uploaded documents?
+A: The chatbot processes the uploaded documents to create embeddings—numerical representations of the text—using Cohere's API. During conversations, it compares your queries to these embeddings to find the most relevant responses.
+
+Q: Where can I get an API key to use this chatbot?
+A: You can sign up for a free account at https://cohere.com/. Once logged in, navigate to your dashboard to create and copy your API key.
+
+Q: How do I secure my API key?
+A: Never share your API key publicly or commit it to public repositories. Use environment variables to store your key securely, such as in a `.env` file (which should be in `.gitignore`), or directly in your hosting service environment configuration.
+
+Q: What hosting platforms are recommended for deploying the API?
+A: Platforms like Render.com, Heroku, or AWS are commonly used to host Node.js APIs. Render offers easy GitHub integration and environment variable management, making it a good choice for this project.
+
+Q: How do I connect this API to my Android app?
+A: Use Retrofit and OkHttp libraries to send HTTP requests to the hosted API endpoint. Retrofit handles the network calls and JSON serialization/deserialization, making it easier to interact with the chatbot backend.
+
+Q: Can I customize the chatbot responses?
+A: Yes, by updating the documents and the code that processes them, you can tailor the chatbot's knowledge and responses. Additionally, you can adjust parameters in the Cohere API calls for tone, length, and creativity.
+
+Q: What rate limits or quotas does Cohere impose?
+A: Free-tier accounts have limits on the number of API calls and tokens processed. Refer to https://cohere.com/pricing for the latest details on quotas and pricing plans.
+
+Q: What should I do if the chatbot doesn't answer correctly?
+A: Make sure your uploaded documents contain the relevant information. You can also improve accuracy by adding more detailed or structured documents, and by tuning your prompt templates in the backend code.
+
+Q: How can I contribute to this project?
+A: Feel free to fork the repository, make improvements or fixes, and submit pull requests. Issues and feature requests can be created on the GitHub repository page.
+
+Q: Who maintains this project?
+A: The project is maintained by the original author, Dentistkiller, but is open to community contributions.
+
+Q: Where can I get help if I encounter issues?
+A: Use the GitHub Issues page on the repository, or visit forums related to Cohere API and Node.js for support.
+
+Q: Is my data safe with this chatbot?
+A: Data security depends on how you host and configure the API. Avoid uploading sensitive personal data. Always follow best practices for data privacy and secure your API keys.
+
+Q: How often should I update the documents?
+A: Update documents whenever your knowledge base changes or when you want the chatbot to handle new topics or information.
+
+Q: Can this chatbot handle multiple languages?
+A: Currently, the system is optimized for English text. Support for other languages depends on Cohere API capabilities and document content.
+
+Q: Can I use this chatbot for commercial purposes?
+A: Check Cohere's terms of service and licensing before using the chatbot commercially.
+
+Q: What technologies does this project use?
+A: The backend is built with Node.js, uses the Cohere API for NLP tasks, and is hosted on platforms like Render. The Android frontend can use Retrofit and OkHttp for communication.
+
+Q: How do I report bugs or request features?
+A: Use the GitHub Issues feature on the project repository.
