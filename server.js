@@ -188,15 +188,21 @@ async function initializeDocuments() {
 // Initialize on server start
 initializeDocuments();
 
-app.post('/generate', async (req, res) => {
-  const { prompt } = req.body;
+// Add a simple test route
+app.get('/', (req, res) => {
+  res.json({ message: 'Y-Travel API is running!' });
+});
+
+// CHANGED: POST to GET for easy browser testing
+app.get('/generate', async (req, res) => {
+  const prompt = req.query.destination || req.query.prompt;
 
   if (!prompt) {
-    return res.status(400).json({ error: 'Prompt is required' });
+    return res.status(400).json({ error: 'Destination or prompt parameter is required' });
   }
 
   try {
-    console.log(`Embedding user prompt...`);
+    console.log(`Embedding user prompt: ${prompt}`);
     const embedResponse = await cohere.embed({
       texts: [prompt],
       model: 'embed-multilingual-v3.0',
@@ -211,7 +217,7 @@ app.post('/generate', async (req, res) => {
 
     const response = await cohere.chat({
       model: 'command-r-plus',
-      message: prompt,
+      message: `Tell me about travel information for: ${prompt}`,
       documents: topDocuments.map(doc => ({
         text: `${doc.data.title}. ${doc.data.snippet}`
       })),
@@ -219,7 +225,7 @@ app.post('/generate', async (req, res) => {
       temperature: 0.3
     });
 
-    console.log('Cohere chat response:', JSON.stringify(response, null, 2));
+    console.log('Cohere chat response received');
 
     res.json({
       text: response.text,
@@ -228,12 +234,17 @@ app.post('/generate', async (req, res) => {
 
   } catch (err) {
     console.error('Error communicating with Cohere API:', err);
-    res.status(500).json({ error: 'Cohere request failed' });
+    res.status(500).json({ error: 'Cohere request failed', details: err.message });
   }
 });
 
-app.post('/holiday', async (req, res) => {
-  const { userInput } = req.body;
+// CHANGED: POST to GET for easy browser testing
+app.get('/holiday', async (req, res) => {
+  const userInput = req.query.destination || req.query.userInput;
+
+  if (!userInput) {
+    return res.status(400).json({ error: 'Destination or userInput parameter is required' });
+  }
 
   try {
     const response = await cohere.chat({
@@ -245,10 +256,12 @@ app.post('/holiday', async (req, res) => {
     res.json({ itinerary: response.text });
   } catch (err) {
     console.error('Error:', err);
-    res.status(500).json({ error: 'Failed to generate itinerary' });
+    res.status(500).json({ error: 'Failed to generate itinerary', details: err.message });
   }
 });
 
-app.listen(5000, () => {
-  console.log('Listening on http://localhost:5000');
+// IMPORTANT: Use PORT environment variable for Render
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });
